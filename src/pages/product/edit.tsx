@@ -8,6 +8,7 @@ export const ProductEdit: React.FC = () => {
     //     resource: "categories",
     //     defaultValue: queryResult?.data?.data?.category.id,
     // });
+    console.log("formProps in edit", formProps);
 
     return (
         <Edit saveButtonProps={saveButtonProps}>

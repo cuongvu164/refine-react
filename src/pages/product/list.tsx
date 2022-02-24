@@ -1,4 +1,4 @@
-import { GetListResponse, useCustom } from "@pankod/refine-core";
+import { CrudFilters, GetListResponse, HttpError, useCustom, useList } from "@pankod/refine-core";
 import {
   useTable,
   List,
@@ -8,18 +8,37 @@ import {
   ShowButton,
   DeleteButton,
 } from "@pankod/refine-antd";
-import type { IResourceComponentsProps, useList } from "@pankod/refine-core";
+import type { IResourceComponentsProps } from "@pankod/refine-core";
 import dataProvider from "@pankod/refine-simple-rest";
-import { IProducts, IDirectoryProduct } from "../../interfaces";
+import { IProducts, IDirectoryProduct, IProductsFilterVariables } from "../../interfaces";
 import { API_URL } from "../../constants";
 import { useState, useEffect } from "react";
 
 export const ProductList: React.FC<
   IResourceComponentsProps<GetListResponse<IDirectoryProduct>>
 > = ({ initialData }) => {
-  // const { tableProps } = useTable<IDirectoryProduct>({
+  // const { searchFormProps } = useTable<IDirectoryProduct, HttpError, IProductsFilterVariables>({
+  //   onSearch: (params) => {
+  //     const filters: CrudFilters = [];
+  //     const { q } = params;
+
+  //     filters.push(
+  //       {
+  //         field: "q",
+  //         operator: "eq",
+  //         value: q,
+  //       });
+  //     return filters;
+  //   }
 
   // });
+
+  // console.log("searchFormProps", searchFormProps);
+
+  // console.log("tableProps", tableProps)
+
+  
+
   const [pageSize, setPageSize] = useState<any>(10)
 
   let { data } = useCustom<IDirectoryProduct>({
@@ -29,11 +48,20 @@ export const ProductList: React.FC<
       query: {
         'searchCriteria[pageSize]': 300,
         'searchCriteria[currentPage]': 1,
+        // filters: {
+        //   field: ,
+        //   operator: 'eq',
+        //   value: sku
+        // }
       }
     },
   })
+  
   // const newData = { dataSource: data?.data.items, pagination: {pageSize: 10, currentPage: 1, total: data?.data.total_count}}
-  const newData = { dataSource: data?.data.items, pagination: { pageSize: pageSize, total: data?.data.items.length } }
+  const newData = { 
+    dataSource: data?.data.items, 
+    pagination: { pageSize: pageSize, total: data?.data.items.length } 
+  }
   console.log("dataSource", newData)
 
   // const newItems = []
@@ -43,7 +71,7 @@ export const ProductList: React.FC<
 
   return (
     <List>
-      <Table {...newData} rowKey="id" onChange={(e) => {setPageSize(e.pageSize); console.log(e)}}>
+      <Table {...newData} rowKey="id" onChange={(e) => { setPageSize(e.pageSize); console.log(e) }}>
         <Table.Column dataIndex="id" title="ID" />
         <Table.Column dataIndex="sku" title="Sku" />
         <Table.Column dataIndex="name" title="Name" />

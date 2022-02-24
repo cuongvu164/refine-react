@@ -51,12 +51,9 @@ export const authProvider: AuthProvider = {
     if (!jwt) {
       return Promise.reject();
     }
-    console.log("1")
     await (axiosInstance.defaults.headers.common = {
       Authorization: `Bearer ${jwt}`,
     })
-
-    console.log("2")
     return Promise.resolve();
   },
   getPermissions: () => {
