@@ -1,12 +1,8 @@
-import { GetListResponse } from "@pankod/refine-core";
+import { GetListResponse, HttpError } from "@pankod/refine-core";
 import {
   useTable,
   List,
   Table,
-  Space,
-  EditButton,
-  ShowButton,
-  DeleteButton,
 } from "@pankod/refine-antd";
 import type { IResourceComponentsProps } from "@pankod/refine-core";
 import { IDirectory } from "../../interfaces";
@@ -14,12 +10,13 @@ import { IDirectory } from "../../interfaces";
 export const DirectoryList: React.FC<
   IResourceComponentsProps<GetListResponse<IDirectory>>
 > = ({ initialData }) => {
-  const { tableProps } = useTable<IDirectory>({
+  const { tableProps } = useTable<IDirectory,HttpError >({
     // queryOptions: {
     //   initialData,
     // },
     initialCurrent: 1,
     initialPageSize: 10,
+    
   });
 
   console.log("tableProps in directory", {...tableProps});

@@ -44,3 +44,8 @@ export interface IDirectoryProduct {
   items: [IProducts]
   total_count: number
 }
+
+export interface IProductsFilterVariables {
+  q?: string
+  created_at: string
+}
